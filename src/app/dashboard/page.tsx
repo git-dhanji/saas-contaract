@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { FileText, AlertTriangle, CheckCircle, Clock } from "lucide-react"
 
 
+/** Minimal contract shape used by this page and child components */
 interface Contract {
     id: string
     name: string
@@ -17,22 +18,25 @@ interface Contract {
     risk: string
 }
 
+
 export default function DashboardPage() {
+    // Contracts data
     const [contracts, setContracts] = useState<Contract[]>([])
+
+    // Loading and error UI state
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
+    // Initial data fetch (from public/contract.json)
     useEffect(() => {
         const fetchContracts = async () => {
             try {
                 setError(null)
                 const response = await fetch("/contract.json")
-                console.log(response)
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch contracts: ${response.status}`)
-                }
+                console.log("contract.json response:", response)
+                if (!response.ok) throw new Error(`Failed to fetch contracts: ${response.status}`)
                 const data = await response.json()
-                console.log(data)
+                console.log("loaded contracts:", data)
                 setContracts(data)
             } catch (error) {
                 console.error("Failed to fetch contracts:", error)
@@ -45,11 +49,16 @@ export default function DashboardPage() {
         fetchContracts()
     }, [])
 
+
+    // Retry fetch (example using /api/contracts)
     const handleRetry = () => {
         setIsLoading(true)
         setError(null)
+
         const fetchContracts = async () => {
             try {
+                // Example: retry against an API route. Keep parity with the
+                // public JSON endpoint; pick one canonical source for production.
                 const response = await fetch("/api/contracts")
                 if (!response.ok) {
                     throw new Error(`Failed to fetch contracts: ${response.status}`)
@@ -63,9 +72,12 @@ export default function DashboardPage() {
                 setIsLoading(false)
             }
         }
+
         fetchContracts()
     }
 
+
+    // Derived stats for summary cards
     const stats = [
         {
             title: "Total Contracts",
@@ -100,20 +112,23 @@ export default function DashboardPage() {
         },
     ]
 
+
     return (
         <DashboardLayout>
             <div className="space-y-6">
+                {/* Header */}
                 <div>
                     <h1 className="text-3xl font-bold text-foreground">Contracts Dashboard</h1>
                     <p className="text-muted-foreground">Manage and monitor your contract portfolio</p>
                 </div>
 
-                {/* Stats Grid */}
+                {/* Stats grid */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     {stats.map((stat) => (
                         <Card key={stat.title} className="bg-card border-border">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium text-card-foreground">{stat.title}</CardTitle>
+                                {/* Render icon component for the stat */}
                                 <stat.icon className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
@@ -129,7 +144,7 @@ export default function DashboardPage() {
                     ))}
                 </div>
 
-                {/* Contracts Table */}
+                {/* Contracts table */}
                 <Card className="bg-card border-border">
                     <CardHeader>
                         <CardTitle className="text-card-foreground">All Contracts</CardTitle>
