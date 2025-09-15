@@ -120,7 +120,7 @@ export default function DashboardPage() {
                                 <div className="text-2xl font-bold text-card-foreground">{stat.value}</div>
                                 <p className="text-xs text-muted-foreground">{stat.description}</p>
                                 <div className="mt-2">
-                                    <Badge  className="text-xs">
+                                    <Badge className="text-xs">
                                         {stat.trend}
                                     </Badge>
                                 </div>
@@ -136,7 +136,7 @@ export default function DashboardPage() {
                         <CardDescription>Complete list of your contracts with filtering and search</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <ContractsTable contracts={contracts} isLoading={isLoading} error={error} onRetry={handleRetry} />
+                        <ContractsTable contracts={contracts} isLoading={isLoading} />
                     </CardContent>
                 </Card>
             </div>
