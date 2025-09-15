@@ -26,7 +26,7 @@ export default function DashboardPage() {
         const fetchContracts = async () => {
             try {
                 setError(null)
-                const response = await fetch("contracts.json")
+                const response = await fetch("/contract.json")
                 console.log(response)
                 if (!response.ok) {
                     throw new Error(`Failed to fetch contracts: ${response.status}`)
@@ -50,7 +50,7 @@ export default function DashboardPage() {
         setError(null)
         const fetchContracts = async () => {
             try {
-                const response = await fetch("/contracts.json")
+                const response = await fetch("/api/contracts")
                 if (!response.ok) {
                     throw new Error(`Failed to fetch contracts: ${response.status}`)
                 }

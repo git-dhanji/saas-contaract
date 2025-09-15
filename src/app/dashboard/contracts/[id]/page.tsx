@@ -55,7 +55,7 @@ export default function ContractDetailPage() {
         } else {
           setError("Contract not found")
         }
-      } catch (err) {
+      } catch (error) {
         setError("Failed to load contract details")
       } finally {
         setIsLoading(false)
