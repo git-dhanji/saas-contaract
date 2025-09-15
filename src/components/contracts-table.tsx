@@ -1,6 +1,8 @@
 "use client"
 
+// React imports
 import { useState, useMemo } from "react"
+// UI components
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,6 +12,7 @@ import { Search, Eye, FileText } from "lucide-react"
 import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
 
+// Contract type
 interface Contract {
   id: string
   name: string
@@ -27,11 +30,13 @@ interface ContractsTableProps {
 const ITEMS_PER_PAGE = 10
 
 export function ContractsTable({ contracts, isLoading }: ContractsTableProps) {
+  // State for filters and pagination
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [riskFilter, setRiskFilter] = useState("all")
   const [currentPage, setCurrentPage] = useState(1)
 
+  // Filter contracts by search, status, and risk
   const filteredContracts = useMemo(() => {
     return contracts.filter((contract) => {
       const matchesSearch =
@@ -45,10 +50,12 @@ export function ContractsTable({ contracts, isLoading }: ContractsTableProps) {
     })
   }, [contracts, searchTerm, statusFilter, riskFilter])
 
+  // Pagination logic
   const totalPages = Math.ceil(filteredContracts.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const paginatedContracts = filteredContracts.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
+  // Badge variant helpers
   const getRiskBadgeVariant = (risk: string) => {
     switch (risk) {
       case "High":
@@ -75,6 +82,7 @@ export function ContractsTable({ contracts, isLoading }: ContractsTableProps) {
     }
   }
 
+  // Format date for display
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -83,6 +91,7 @@ export function ContractsTable({ contracts, isLoading }: ContractsTableProps) {
     })
   }
 
+  // Show loading skeletons if loading
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -104,6 +113,7 @@ export function ContractsTable({ contracts, isLoading }: ContractsTableProps) {
     <div className="space-y-4">
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
+        {/* Search input */}
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -116,6 +126,7 @@ export function ContractsTable({ contracts, isLoading }: ContractsTableProps) {
             className="pl-10"
           />
         </div>
+        {/* Status filter */}
         <Select
           value={statusFilter}
           onValueChange={(value) => {
@@ -133,6 +144,7 @@ export function ContractsTable({ contracts, isLoading }: ContractsTableProps) {
             <SelectItem value="Renewal Due">Renewal Due</SelectItem>
           </SelectContent>
         </Select>
+        {/* Risk filter */}
         <Select
           value={riskFilter}
           onValueChange={(value) => {
@@ -152,7 +164,7 @@ export function ContractsTable({ contracts, isLoading }: ContractsTableProps) {
         </Select>
       </div>
 
-      {/* Table */}
+      {/* Table or empty state */}
       {filteredContracts.length === 0 ? (
         <div className="text-center py-12">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
@@ -165,6 +177,7 @@ export function ContractsTable({ contracts, isLoading }: ContractsTableProps) {
         </div>
       ) : (
         <>
+          {/* Contracts table */}
           <div className="rounded-md border border-border overflow-hidden">
             <Table>
               <TableHeader>
@@ -206,7 +219,7 @@ export function ContractsTable({ contracts, isLoading }: ContractsTableProps) {
             </Table>
           </div>
 
-          {/* Pagination */}
+          {/* Pagination controls */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">

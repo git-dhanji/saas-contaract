@@ -50,31 +50,7 @@ export default function DashboardPage() {
     }, [])
 
 
-    // Retry fetch (example using /api/contracts)
-    const handleRetry = () => {
-        setIsLoading(true)
-        setError(null)
-
-        const fetchContracts = async () => {
-            try {
-                // Example: retry against an API route. Keep parity with the
-                // public JSON endpoint; pick one canonical source for production.
-                const response = await fetch("/api/contracts")
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch contracts: ${response.status}`)
-                }
-                const data = await response.json()
-                setContracts(data)
-            } catch (error) {
-                console.error("Failed to fetch contracts:", error)
-                setError("Failed to load contracts. Please try again.")
-            } finally {
-                setIsLoading(false)
-            }
-        }
-
-        fetchContracts()
-    }
+    
 
 
     // Derived stats for summary cards
@@ -150,7 +126,9 @@ export default function DashboardPage() {
                         <CardTitle className="text-card-foreground">All Contracts</CardTitle>
                         <CardDescription>Complete list of your contracts with filtering and search</CardDescription>
                     </CardHeader>
+                    {/* Main contracts table content */}
                     <CardContent>
+                        {/* Pass contracts data and loading state to ContractsTable */}
                         <ContractsTable contracts={contracts} isLoading={isLoading} />
                     </CardContent>
                 </Card>

@@ -12,6 +12,21 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { ArrowLeft, FileText, AlertTriangle, Info, Eye, Calendar, Users, Shield } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
 
+/**
+ * Represents the details of a contract, including its metadata, parties involved, status, risk assessment,
+ * clauses, insights, and supporting evidence.
+ *
+ * @property {string} id - Unique identifier for the contract.
+ * @property {string} name - Name or title of the contract.
+ * @property {string} parties - Parties involved in the contract.
+ * @property {string} start - Start date of the contract (ISO string).
+ * @property {string} expiry - Expiry date of the contract (ISO string).
+ * @property {string} status - Current status of the contract (e.g., active, expired).
+ * @property {string} risk - Overall risk assessment for the contract.
+ * @property {Array<{ title: string; summary: string; confidence: number }>} clauses - List of contract clauses, each with a title, summary, and confidence score.
+ * @property {Array<{ risk: string; message: string }>} insights - Insights related to contract risks, each with a risk type and descriptive message.
+ * @property {Array<{ source: string; snippet: string; relevance: number }>} evidence - Supporting evidence for the contract, including source, snippet, and relevance score.
+ */
 interface ContractDetail {
   id: string
   name: string
