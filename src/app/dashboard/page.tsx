@@ -120,7 +120,7 @@ export default function DashboardPage() {
                                 <div className="text-2xl font-bold text-card-foreground">{stat.value}</div>
                                 <p className="text-xs text-muted-foreground">{stat.description}</p>
                                 <div className="mt-2">
-                                    <Badge variant={stat.variant || "secondary"} className="text-xs">
+                                    <Badge  className="text-xs">
                                         {stat.trend}
                                     </Badge>
                                 </div>
